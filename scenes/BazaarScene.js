@@ -417,10 +417,12 @@ export default class BazaarScene extends Phaser.Scene {
   }
 
   _enterPortal() {
+    if (this._enteringPortal) return
     if (GameState.chai<3) {
       this.hud.showNotif('Need 3 CHAI! You have '+GameState.chai+'/3','#ff6666',1500)
       return
     }
+    this._enteringPortal = true
     this.cameras.main.fadeOut(800,0,0,0)
     this.cameras.main.once('camerafadeoutcomplete',()=>this.scene.start('PalaceScene'))
   }
@@ -533,6 +535,9 @@ export default class BazaarScene extends Phaser.Scene {
 
     this._updateGuards(delta)
     if (GameState.auntyLevel>=100) this.scene.start('GameOverScene',{reason:'aunty'})
+    // Distance-based portal check as backup
+    const distPortal = Phaser.Math.Distance.Between(this.player.x,this.player.y,1450,1450)
+    if (distPortal<60) this._enterPortal()
     this.hud.update()
   }
 }

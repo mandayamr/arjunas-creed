@@ -37,7 +37,7 @@ export default class PalaceScene extends Phaser.Scene {
 
     // Spice pickups
     this.spices = this.physics.add.staticGroup()
-    [[250,250],[950,250],[250,950],[950,950],[600,500]].forEach(([x,y])=>{
+    ;[[250,250],[950,250],[250,950],[950,950],[600,500]].forEach(([x,y])=>{
       const v = this.add.graphics().setDepth(6)
       v.fillStyle(0xff6600,1); v.fillCircle(0,0,12)
       v.fillStyle(0xffaa00,1); v.fillCircle(0,0,5)
@@ -151,7 +151,7 @@ export default class PalaceScene extends Phaser.Scene {
     walls.fillRect(26,0,4,H); walls.fillRect(W-32,0,4,H)
 
     const pillars=this.add.graphics().setDepth(2)
-    [[100,100],[100,600],[100,1100],[600,100],[1100,100],[1100,600],[1100,1100],[600,1100]].forEach(([x,y])=>{
+    ;[[100,100],[100,600],[100,1100],[600,100],[1100,100],[1100,600],[1100,1100],[600,1100]].forEach(([x,y])=>{
       pillars.fillStyle(0xe8c898,1); pillars.fillRect(x-16,y-44,32,88)
       pillars.fillStyle(0xffd700,0.5); pillars.fillRect(x-16,y-44,32,9); pillars.fillRect(x-16,y+35,32,9)
       pillars.fillStyle(0xc8a870,1); pillars.fillEllipse(x,y-44,40,16); pillars.fillEllipse(x,y+44,40,16)
