@@ -634,7 +634,7 @@ export default class BazaarScene extends Scene {
     if (this.keys.right.isDown || this.keys.d.isDown) body.setVelocityX(speed)
     if (this.keys.up.isDown || this.keys.w.isDown) body.setVelocityY(-speed)
     if (this.keys.down.isDown || this.keys.s.isDown) body.setVelocityY(speed)
-    if (Phaser.Input.Keyboard.JustDown(this.keys.space)) this._throwRoti()
+    // space handled below
     if (Phaser.Input.Keyboard.JustDown(this.keys.b)) this._toggleBlend()
     this._updateGuards(delta)
     if (GameState.auntyLevel >= 100) this.scene.start('GameOverScene', { reason: 'aunty' })
