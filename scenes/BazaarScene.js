@@ -332,14 +332,17 @@ export default class BazaarScene extends Phaser.Scene {
 
   _rotiHit(bullet,guard) {
     if (!guard.active||guard.dead) return
-    bullet.destroy(); guard.dead=true; guard.body.setVelocity(0,0)
+    bullet.destroy(); guard.dead=true; if(guard.body) guard.body.setVelocity(0,0)
     GameState.score+=300
     if (guard.vis) { guard.vis.clear(); guard.vis.fillStyle(0x888888,0.5); guard.vis.fillEllipse(0,5,22,12) }
     const ko=this.add.text(guard.x,guard.y-30,'KO!',{fontSize:'20px',fontFamily:'monospace',color:'#ffff00',stroke:'#000',strokeThickness:4}).setOrigin(0.5).setDepth(20)
     this.tweens.add({targets:ko,y:guard.y-70,alpha:0,duration:1300,onComplete:()=>ko.destroy()})
     this.hud.showNotif(guard.guardName+' knocked out! +300pts','#00ff88',1500)
     if (guard.label) guard.label.setText('x').setColor('#888')
-    this.time.delayedCall(1500,()=>{ if(guard.vis?.active) guard.vis.destroy(); if(guard.label?.active) guard.label.destroy(); if(guard.active) guard.destroy() })
+    if(guard.vis) { guard.vis.setAlpha(0) }
+    if(guard.label) { guard.label.setAlpha(0) }
+    guard.setActive(false).setVisible(false)
+    if(guard.body) guard.body.setEnable(false)
     this.hud.update()
   }
 
@@ -350,7 +353,7 @@ export default class BazaarScene extends Phaser.Scene {
     this.cameras.main.shake(250,0.012)
     this.hud.showNotif('CAUGHT by '+guard.guardName+'! Aunty +20%!','#ff3333',2000)
     const angle=Phaser.Math.Angle.Between(guard.x,guard.y,player.x,player.y)
-    player.body.setVelocity(Math.cos(angle)*300,Math.sin(angle)*300)
+    if(player.body) player.body.setVelocity(Math.cos(angle)*300,Math.sin(angle)*300)
     this.time.delayedCall(700,()=>{ this._caught=false })
     if (GameState.auntyLevel>=100) this.scene.start('GameOverScene',{reason:'aunty'})
   }
@@ -423,10 +426,10 @@ export default class BazaarScene extends Phaser.Scene {
           }
         }
       }
-      if (g.isChasing) { this.physics.moveToObject(g,this.player,85) }
+      if (g.isChasing) { if(g.body) this.physics.moveToObject(g,this.player,85) }
       else {
         g.patrolAngle+=delta*0.0008
-        this.physics.moveTo(g,g.patrolCX+Math.cos(g.patrolAngle)*120,g.patrolCY+Math.sin(g.patrolAngle)*120,35)
+        if(g.body) this.physics.moveTo(g,g.patrolCX+Math.cos(g.patrolAngle)*120,g.patrolCY+Math.sin(g.patrolAngle)*120,35)
       }
     })
   }

@@ -218,7 +218,7 @@ export default class PalaceScene extends Phaser.Scene {
     this.cameras.main.shake(200,0.01)
     this.hud.showNotif('Governor bumped you! +15%!','#ff6666',1200)
     const angle=Phaser.Math.Angle.Between(boss.x,boss.y,player.x,player.y)
-    player.body.setVelocity(Math.cos(angle)*280,Math.sin(angle)*280)
+    if(player.body) player.body.setVelocity(Math.cos(angle)*280,Math.sin(angle)*280)
     this.time.delayedCall(500,()=>{ this._caught=false })
     if (GameState.auntyLevel>=100) this.scene.start('GameOverScene',{reason:'spice'})
   }
@@ -254,7 +254,7 @@ export default class PalaceScene extends Phaser.Scene {
 
   _killBoss() {
     this._bossDead=true
-    this.bossSprite.body.setVelocity(0,0)
+    if(this.bossSprite&&this.bossSprite.body) this.bossSprite.body.setVelocity(0,0)
     this.bossVis.clear()
     this.bossVis.fillStyle(0x888888,0.5); this.bossVis.fillEllipse(this.bossSprite.x,this.bossSprite.y+8,28,14)
     this.bossVis.fillStyle(0xffcc99,0.5); this.bossVis.fillCircle(this.bossSprite.x,this.bossSprite.y-5,10)
@@ -286,7 +286,7 @@ export default class PalaceScene extends Phaser.Scene {
     this._spaceDown=spaceDown
 
     const bspd=50+(this._bossMaxHP-this._bossHP)*18
-    this.physics.moveToObject(this.bossSprite,this.player,bspd)
+    if(this.bossSprite&&this.bossSprite.body) this.physics.moveToObject(this.bossSprite,this.player,bspd)
     this.hud.update()
   }
 }
