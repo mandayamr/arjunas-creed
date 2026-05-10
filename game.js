@@ -1,5 +1,12 @@
 import Phaser from 'phaser'
-import GameScene from './scenes/GameScene.js'
+import TitleScene from './scenes/TitleScene.js'
+import BazaarScene from './scenes/BazaarScene.js'
+import PalaceScene from './scenes/PalaceScene.js'
+import GameOverScene from './scenes/GameOverScene.js'
+import WinScene from './scenes/WinScene.js'
+import { resetState } from './scenes/GameState.js'
+
+window.__maki_reset = { resetState }
 
 new Phaser.Game({
     type: Phaser.AUTO,
@@ -10,5 +17,5 @@ new Phaser.Game({
         default: 'arcade',
         arcade: { debug: false }
     },
-    scene: [GameScene]
+    scene: [TitleScene, BazaarScene, PalaceScene, GameOverScene, WinScene]
 })
