@@ -10,9 +10,11 @@ export default class PalaceScene extends Phaser.Scene {
 
     this._drawPalaceWorld(W,H)
 
-    this.player = this.physics.add.rectangle(600,1000,18,24,0xffbb88)
+    this.player = this.add.rectangle(600,1000,18,24,0xffbb88)
+    this.physics.add.existing(this.player)
     this.player.setDepth(10)
     this.player.body.setCollideWorldBounds(true)
+    this.player.body.setAllowGravity(false)
     this.playerHead = this.add.graphics().setDepth(11)
     this._drawPlayer()
 
@@ -34,6 +36,7 @@ export default class PalaceScene extends Phaser.Scene {
     this.bossBody.body.setCollideWorldBounds(true)
     this.bossBody.body.setBounce(0.6)
     this.bossBody.body.setVelocity(120,80)
+    this.bossBody.body.setAllowGravity(false)
 
     // Spice pickups
     this.spices = this.physics.add.staticGroup()
