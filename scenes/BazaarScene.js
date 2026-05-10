@@ -266,14 +266,14 @@ export default class BazaarScene extends Scene {
   _toggleChaiVision() {
     GameState.chaiVisionActive = !GameState.chaiVisionActive
     if (GameState.chaiVisionActive) {
-      this.cameras.main.setTint(0xff6600)
+      
       this.hud.showNotif('CHAI VISION ACTIVE!', '#ff9933', 2000)
       this.time.delayedCall(5000, () => {
-        GameState.chaiVisionActive = false
-        this.cameras.main.clearTint()
+        
+        
       })
     } else {
-      this.cameras.main.clearTint()
+      
     }
   }
 
