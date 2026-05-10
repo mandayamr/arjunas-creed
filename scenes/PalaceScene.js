@@ -6,7 +6,7 @@ export default class PalaceScene extends Phaser.Scene {
   preload() {
     const g=this.make.graphics({x:0,y:0,add:false})
     g.fillStyle(0xffffff,1); g.fillRect(0,0,32,32)
-    g.generateTexture('white2',32,32); g.destroy()
+    g.generateTexture('px',32,32); g.destroy()
   }
 
   create() {
@@ -16,7 +16,7 @@ export default class PalaceScene extends Phaser.Scene {
     this.cameras.main.setZoom(1.8)
     this._drawPalace(W,H)
 
-    this.player=this.physics.add.sprite(600,1000,'white2')
+    this.player=this.physics.add.sprite(600,1000,'px')
     this.player.setDisplaySize(18,24).setTint(0xffbb88).setDepth(10)
     this.player.body.setAllowGravity(false)
     this.player.body.setCollideWorldBounds(true)
@@ -28,7 +28,7 @@ export default class PalaceScene extends Phaser.Scene {
     this._caught=false; this._spaceDown=false; this._facingAngle=-Math.PI/2
 
     this.bossVis=this.add.graphics().setDepth(10)
-    this.bossSprite=this.physics.add.sprite(600,200,'white2')
+    this.bossSprite=this.physics.add.sprite(600,200,'px')
     this.bossSprite.setDisplaySize(22,34).setAlpha(0.01)
     this.bossSprite.body.setAllowGravity(false)
     this.bossSprite.body.setCollideWorldBounds(true)
@@ -45,7 +45,7 @@ export default class PalaceScene extends Phaser.Scene {
       v.setPosition(x,y)
       this.tweens.add({targets:v,y:y-8,duration:800,yoyo:true,repeat:-1})
       this.add.text(x,y-22,'SPICE',{fontSize:'9px',fontFamily:'monospace',color:'#ff6600',stroke:'#000',strokeThickness:2}).setOrigin(0.5).setDepth(7)
-      const h=this.physics.add.sprite(x,y,'white2')
+      const h=this.physics.add.sprite(x,y,'px')
       h.setDisplaySize(30,30).setAlpha(0.01)
       h.body.setAllowGravity(false)
       h.spiceVis=v

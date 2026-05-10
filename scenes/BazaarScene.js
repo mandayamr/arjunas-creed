@@ -8,7 +8,7 @@ export default class BazaarScene extends Phaser.Scene {
     const g = this.make.graphics({x:0,y:0,add:false})
     g.fillStyle(0xffffff,1)
     g.fillRect(0,0,32,32)
-    g.generateTexture('white',32,32)
+    g.generateTexture('px',32,32)
     g.destroy()
   }
 
@@ -21,7 +21,7 @@ export default class BazaarScene extends Phaser.Scene {
     this._drawWorld()
 
     // Player as sprite
-    this.player = this.physics.add.sprite(800,800,'white')
+    this.player = this.physics.add.sprite(800,800,'px')
     this.player.setDisplaySize(18,24)
     this.player.setTint(0xffbb88)
     this.player.setDepth(10)
@@ -57,7 +57,7 @@ export default class BazaarScene extends Phaser.Scene {
       v.setPosition(x,y)
       this.tweens.add({targets:v,y:y-10,duration:900,yoyo:true,repeat:-1,ease:'Sine.easeInOut'})
       this.add.text(x,y-24,'CHAI',{fontSize:'9px',fontFamily:'monospace',color:'#ffd700',stroke:'#000',strokeThickness:2}).setOrigin(0.5).setDepth(7)
-      const h=this.physics.add.sprite(x,y,'white')
+      const h=this.physics.add.sprite(x,y,'px')
       h.setDisplaySize(30,30).setAlpha(0.01)
       h.body.setAllowGravity(false)
       h.chaiVis=v
@@ -81,7 +81,7 @@ export default class BazaarScene extends Phaser.Scene {
       v.setPosition(x,y)
       this.tweens.add({targets:v,angle:360,duration:1800,repeat:-1})
       this.add.text(x,y-20,'ROTI',{fontSize:'9px',fontFamily:'monospace',color:'#ffaa00',stroke:'#000',strokeThickness:2}).setOrigin(0.5).setDepth(7)
-      const h=this.physics.add.sprite(x,y,'white')
+      const h=this.physics.add.sprite(x,y,'px')
       h.setDisplaySize(30,30).setAlpha(0.01)
       h.body.setAllowGravity(false)
       h.rotiVis=v
@@ -96,7 +96,7 @@ export default class BazaarScene extends Phaser.Scene {
     pv.setPosition(1450,1450)
     this.tweens.add({targets:pv,alpha:{from:0.5,to:1},duration:600,yoyo:true,repeat:-1})
     this.add.text(1450,1415,'PALACE\nGATE',{fontSize:'11px',fontFamily:'monospace',color:'#00ffff',stroke:'#000',strokeThickness:2,align:'center'}).setOrigin(0.5).setDepth(9)
-    this.portalSprite = this.physics.add.sprite(1450,1450,'white')
+    this.portalSprite = this.physics.add.sprite(1450,1450,'px')
     this.portalSprite.setDisplaySize(55,55).setAlpha(0.01)
     this.portalSprite.body.setAllowGravity(false)
     this.portalSprite.body.setImmovable(true)
@@ -105,7 +105,7 @@ export default class BazaarScene extends Phaser.Scene {
     const dv=this.add.graphics().setDepth(8)
     this._drawDadiGfx(dv); dv.setPosition(800,700)
     this.add.text(800,665,'DADI -- walk here to\ngive rotis & lower aunty!',{fontSize:'9px',fontFamily:'monospace',color:'#ff88ff',stroke:'#000',strokeThickness:2,align:'center'}).setOrigin(0.5).setDepth(9)
-    this.dadiSprite = this.physics.add.sprite(800,700,'white')
+    this.dadiSprite = this.physics.add.sprite(800,700,'px')
     this.dadiSprite.setDisplaySize(40,40).setAlpha(0.01)
     this.dadiSprite.body.setAllowGravity(false)
     this.dadiSprite.body.setImmovable(true)
@@ -268,7 +268,7 @@ export default class BazaarScene extends Phaser.Scene {
     vis.fillStyle(0x222222,1); vis.fillRect(-8,24,7,5); vis.fillRect(1,24,7,5)
     vis.setPosition(x,y)
 
-    const s=this.physics.add.sprite(x,y,'white')
+    const s=this.physics.add.sprite(x,y,'px')
     s.setDisplaySize(18,30).setAlpha(0.01)
     s.body.setAllowGravity(false)
     s.body.setCollideWorldBounds(true)
