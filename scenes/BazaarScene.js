@@ -231,7 +231,7 @@ export default class BazaarScene extends Scene {
       stalls.fillTriangle(s.x - 50, s.y - 25, s.x, s.y - 45, s.x + 50, s.y - 25)
     })
 
-    const cows = this.add.graphics().setDepth(4)
+    const cows = this.add.graphics().setDepth(4);
     [[600, 600], [1000, 500], [500, 1100]].forEach(([cx, cy]) => {
       cows.fillStyle(0xffffff, 1)
       cows.fillRect(cx - 22, cy - 10, 44, 28)
@@ -418,7 +418,7 @@ export default class BazaarScene extends Scene {
     const py = this.arjun.sprite.y
     const blending = GameState.blendActive
 
-    if (!this.guards) return; if (!this.guards) return; this.guards.getChildren().forEach(g => {
+    if (!this.guards) return; const guardList = (this.guards && this.guards.getChildren) ? this.guards.getChildren() : []; guardList.forEach(g => {
       if (!g.active || g.state === STATE.DEAD) return
       g.nameLabel.setPosition(g.x, g.y - 30)
       const dist = Phaser.Math.Distance.Between(g.x, g.y, px, py)
@@ -614,7 +614,7 @@ export default class BazaarScene extends Scene {
 
   _nearestActiveGuard() {
     let nearest = null, minD = Infinity
-    if (!this.guards) return; if (!this.guards) return; this.guards.getChildren().forEach(g => {
+    if (!this.guards) return; const guardList = (this.guards && this.guards.getChildren) ? this.guards.getChildren() : []; guardList.forEach(g => {
       if (!g.active || g.state === STATE.DEAD) return
       const d = Phaser.Math.Distance.Between(this.arjun.sprite.x, this.arjun.sprite.y, g.x, g.y)
       if (d < minD) { minD = d; nearest = g }
