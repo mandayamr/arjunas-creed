@@ -11,7 +11,9 @@ export default class BazaarScene extends Phaser.Scene {
     this._drawWorld(W, H)
 
     // Player
-    this.player = this.physics.add.rectangle(800, 800, 18, 24, 0xffbb88)
+    this.player = this.add.rectangle(800, 800, 18, 24, 0xffbb88)
+    this.physics.add.existing(this.player)
+    this.player.body.setCollideWorldBounds(true)
     this.player.setDepth(10)
     this.player.body.setCollideWorldBounds(true)
 
@@ -281,6 +283,7 @@ export default class BazaarScene extends Phaser.Scene {
 
     const body = this.add.rectangle(x,y,18,30,0x000000,0)
     this.physics.add.existing(body)
+    body.body.setAllowGravity(false)
     body.body.setCollideWorldBounds(true)
     body.vis = g
     body.guardName = name
