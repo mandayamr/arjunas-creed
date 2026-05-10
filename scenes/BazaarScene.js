@@ -52,7 +52,9 @@ export default class BazaarScene extends Scene {
       scaleY: { from: 0.9, to: 1.1 },
       duration: 800, yoyo: true, repeat: -1
     })
-    this.add.text(720, 700, 'PALACE', { fontSize: '10px', fontFamily: 'monospace', color: '#00ffff' }).setOrigin(0.5)
+    this.add.text(720, 700, 'PALACE', {
+      fontSize: '10px', fontFamily: 'monospace', color: '#00ffff'
+    }).setOrigin(0.5)
 
     this.physics.add.overlap(this.arjun.sprite, this.guards, this._guardCaught, null, this)
     this.physics.add.overlap(this.arjun.sprite, this.chais, this._collectChai, null, this)
@@ -97,25 +99,29 @@ export default class BazaarScene extends Scene {
 
     this.hud.showNotif('Collect 3 Chai to open the palace gate!', '#ffd700', 3500)
     this.time.delayedCall(4000, () => {
-      this.hud.showNotif('SPACE=throw Roti  B=Blend Mode  E=Chai Vision', '#aaffaa', 3000)
+      this.hud.showNotif('SPACE=throw Roti  B=Blend  E=Chai Vision', '#aaffaa', 3000)
     })
 
     this.cameras.main.fadeIn(600)
   }
 
   _spawnGuard(x, y, name) {
-    const g = this.add.rectangle(0, 0, 14, 14, 0xff3333)
+    const g = this.add.graphics()
+    g.fillStyle(0xff3333, 1)
+    g.fillRect(-7, -7, 14, 14)
     this.physics.add.existing(g)
     g.body.setCollideWorldBounds(true)
     g.setPosition(x, y)
     g.setDepth(5)
     g.nameLabel = this.add.text(x, y - 14, 'Guard ' + name, {
-      fontSize: '9px', fontFamily: 'monospace', color: '#ffffff', stroke: '#000', strokeThickness: 2
+      fontSize: '9px', fontFamily: 'monospace', color: '#ffffff',
+      stroke: '#000', strokeThickness: 2
     }).setOrigin(0.5).setDepth(6)
     g.guardName = name
     g.state = STATE.PATROL
     g.hp = 2
     g.alertLevel = 0
+    g.currentColor = 0xff3333
     g.patrolPoints = [
       new Phaser.Math.Vector2(x - 80, y),
       new Phaser.Math.Vector2(x + 80, y),
@@ -132,8 +138,19 @@ export default class BazaarScene extends Scene {
     return g
   }
 
+  _setGuardColor(g, color) {
+    if (g.currentColor === color) return
+    g.currentColor = color
+    g.clear()
+    g.fillStyle(color, 1)
+    g.fillRect(-7, -7, 14, 14)
+  }
+
   _spawnCow(x, y) {
-    const cow = this.add.text(x, y, 'COW', { fontSize: '16px', fontFamily: 'monospace', color: '#ffffff', backgroundColor: '#8B4513', padding: { x: 4, y: 2 } })
+    const cow = this.add.text(x, y, 'COW', {
+      fontSize: '16px', fontFamily: 'monospace', color: '#ffffff',
+      backgroundColor: '#8B4513', padding: { x: 4, y: 2 }
+    })
     this.physics.add.existing(cow, true)
     cow.setDepth(4)
     this.cows.add(cow)
@@ -141,7 +158,10 @@ export default class BazaarScene extends Scene {
 
   _spawnChais() {
     [[150,150],[650,150],[150,650],[650,650],[400,280],[280,500],[520,500]].forEach(([x,y]) => {
-      const c = this.add.text(x, y, 'CHAI', { fontSize: '12px', fontFamily: 'monospace', color: '#ffd700', backgroundColor: '#333', padding: { x: 3, y: 2 } })
+      const c = this.add.text(x, y, 'CHAI', {
+        fontSize: '12px', fontFamily: 'monospace', color: '#ffd700',
+        backgroundColor: '#333', padding: { x: 3, y: 2 }
+      })
       this.physics.add.existing(c, true)
       c.setDepth(3)
       this.tweens.add({ targets: c, y: y - 6, duration: 1200, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' })
@@ -151,7 +171,10 @@ export default class BazaarScene extends Scene {
 
   _spawnRotis() {
     [[240,350],[560,350],[400,160],[400,640]].forEach(([x,y]) => {
-      const r = this.add.text(x, y, 'ROTI', { fontSize: '11px', fontFamily: 'monospace', color: '#ffaa00', backgroundColor: '#333', padding: { x: 3, y: 2 } })
+      const r = this.add.text(x, y, 'ROTI', {
+        fontSize: '11px', fontFamily: 'monospace', color: '#ffaa00',
+        backgroundColor: '#333', padding: { x: 3, y: 2 }
+      })
       this.physics.add.existing(r, true)
       r.setDepth(3)
       this.rotiPickups.add(r)
@@ -189,16 +212,16 @@ export default class BazaarScene extends Scene {
 
       if (g.state === STATE.CHASE) {
         this.physics.moveToObject(g, this.arjun.sprite, 60)
-        g.setTint(0xff0000)
+        this._setGuardColor(g, 0xff0000)
       } else if (g.state === STATE.PATROL) {
-        g.clearTint()
+        this._setGuardColor(g, 0xff3333)
         const target = g.patrolPoints[g.patrolIndex]
         const td = Phaser.Math.Distance.Between(g.x, g.y, target.x, target.y)
         if (td < 10) g.patrolIndex = (g.patrolIndex + 1) % g.patrolPoints.length
         this.physics.moveToObject(g, target, 28)
       } else {
         this.physics.moveToObject(g, this.arjun.sprite, 35)
-        g.setTint(0xffaa00)
+        this._setGuardColor(g, 0xffaa00)
       }
     })
   }
@@ -208,7 +231,8 @@ export default class BazaarScene extends Scene {
     g.state = STATE.DISTRACTED
     g.body.setVelocity(0, 0)
     const bubble = this.add.text(g.x, g.y - 30, 'mmm tiffin...', {
-      fontSize: '10px', fontFamily: 'monospace', color: '#ffffff', backgroundColor: '#333', padding: { x: 4, y: 2 }
+      fontSize: '10px', fontFamily: 'monospace', color: '#ffffff',
+      backgroundColor: '#333', padding: { x: 4, y: 2 }
     }).setOrigin(0.5).setDepth(20)
     this.time.delayedCall(4000, () => { bubble.destroy(); g.state = STATE.PATROL })
   }
@@ -221,7 +245,9 @@ export default class BazaarScene extends Scene {
     GameState.rotis--
     const dx = this.arjun.sprite.x
     const dy = this.arjun.sprite.y
-    const roti = this.add.text(dx, dy, 'o', { fontSize: '14px', fontFamily: 'monospace', color: '#ffaa00' })
+    const roti = this.add.text(dx, dy, 'o', {
+      fontSize: '14px', fontFamily: 'monospace', color: '#ffaa00'
+    })
     roti.setDepth(8)
     this.physics.add.existing(roti)
     const nearestGuard = this._nearestGuard()
@@ -242,7 +268,10 @@ export default class BazaarScene extends Scene {
     if (GameState.chaiVisionActive) {
       this.cameras.main.setTint(0xff6600)
       this.hud.showNotif('CHAI VISION ACTIVE!', '#ff9933', 2000)
-      this.time.delayedCall(5000, () => { GameState.chaiVisionActive = false; this.cameras.main.clearTint() })
+      this.time.delayedCall(5000, () => {
+        GameState.chaiVisionActive = false
+        this.cameras.main.clearTint()
+      })
     } else {
       this.cameras.main.clearTint()
     }
@@ -277,7 +306,7 @@ export default class BazaarScene extends Scene {
     GameState.score += 50
     this.hud.showNotif('Chai collected! +50pts', '#ffd700', 1000)
     this.hud.update()
-    if (GameState.chai >= 3) this.hud.showNotif('3 Chai collected! Palace gate OPEN!', '#00ffcc', 3000)
+    if (GameState.chai >= 3) this.hud.showNotif('3 Chai! Palace gate OPEN! Go to PALACE portal!', '#00ffcc', 3000)
   }
 
   _collectRoti(player, roti) {
@@ -328,7 +357,7 @@ export default class BazaarScene extends Scene {
     const messages = [
       'Dadi: "Beta, have you eaten?"',
       'Dadi: "Stop this and get married!"',
-      'Dadi: "Your uncle Sharma is a guard here!"',
+      'Dadi: "Your uncle Sharma is a guard!"',
       'Dadi: "I teleported here. Don\'t ask."',
       'Dadi: "Is that a roti? Give me!"'
     ]

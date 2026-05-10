@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>My Maki Game</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body {
-            width: 100%; height: 100%;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-        canvas { display: block; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arjun's Creed</title>
+  <style>
+    * { margin: 0; padding: 0; }
+    body { background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    #error-box { display:none; position:fixed; top:0; left:0; right:0; background:#ff3333; color:#fff; font-family:monospace; font-size:12px; padding:10px; z-index:9999; white-space:pre-wrap; }
+  </style>
 </head>
 <body>
-    <script type="module" src="./game.js"></script>
+  <div id="error-box"></div>
+  <script>
+    window.onerror = function(msg, src, line, col, err) {
+      var box = document.getElementById('error-box');
+      box.style.display = 'block';
+      box.textContent = 'ERROR: ' + msg + '\nFile: ' + src + '\nLine: ' + line;
+    }
+    window.addEventListener('unhandledrejection', function(e) {
+      var box = document.getElementById('error-box');
+      box.style.display = 'block';
+      box.textContent = 'PROMISE ERROR: ' + e.reason;
+    })
+  </script>
+  <script type="module" src="/game.js"></script>
 </body>
 </html>

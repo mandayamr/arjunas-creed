@@ -1,8 +1,7 @@
-// maki.config.js — developer's single config file
 export default {
-  width: 800,   // game canvas width in px — editor canvas matches this
-  height: 600,  // game canvas height in px — editor canvas matches this
+  width: 800,
+  height: 600,
   maps: ['default_map'],
-  sprites: ['lia'],
+  sprites: ['lia', 'ash'],
   debug: false
 }
