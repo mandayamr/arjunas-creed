@@ -627,15 +627,18 @@ export default class BazaarScene extends Scene {
 
   update(time, delta) {
     if (this._caught) return
-    this.maki.move(this.arjun)
     const body = this.arjun.sprite.body
     const speed = GameState.blendActive ? 60 : 140
-    if (this.keys.left.isDown || this.keys.a.isDown) body.setVelocityX(-speed)
-    if (this.keys.right.isDown || this.keys.d.isDown) body.setVelocityX(speed)
-    if (this.keys.up.isDown || this.keys.w.isDown) body.setVelocityY(-speed)
-    if (this.keys.down.isDown || this.keys.s.isDown) body.setVelocityY(speed)
-    // space handled below
-    if (Phaser.Input.Keyboard.JustDown(this.keys.b)) this._toggleBlend()
+    let vx = 0, vy = 0
+    if (this.keys.left.isDown || this.keys.a.isDown) vx = -speed
+    if (this.keys.right.isDown || this.keys.d.isDown) vx = speed
+    if (this.keys.up.isDown || this.keys.w.isDown) vy = -speed
+    if (this.keys.down.isDown || this.keys.s.isDown) vy = speed
+    body.setVelocity(vx, vy)
+    if (this.keys.space.isDown && !this._spaceWasDown) this._throwRoti()
+    this._spaceWasDown = this.keys.space.isDown
+    if (this.keys.b.isDown && !this._bWasDown) this._toggleBlend()
+    this._bWasDown = this.keys.b.isDown
     this._updateGuards(delta)
     if (GameState.auntyLevel >= 100) this.scene.start('GameOverScene', { reason: 'aunty' })
     this.hud.update()
