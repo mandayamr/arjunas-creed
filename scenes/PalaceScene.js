@@ -39,7 +39,7 @@ export default class PalaceScene extends Phaser.Scene {
     this.spices = this.physics.add.staticGroup()
     [[250,250],[950,250],[250,950],[950,950],[600,500]].forEach(([x,y])=>{
       const v = this.add.graphics().setDepth(6)
-      v.fillStyle(0xff6600,1); v.fillStar(0,0,5,12,6,0)
+      v.fillStyle(0xff6600,1); v.fillCircle(0,0,12)
       v.fillStyle(0xffaa00,1); v.fillCircle(0,0,5)
       v.setPosition(x,y)
       this.tweens.add({targets:v, y:y-8, duration:800, yoyo:true, repeat:-1})
@@ -178,7 +178,7 @@ export default class PalaceScene extends Phaser.Scene {
     for(let i=0;i<shots;i++) {
       const spread=(i-Math.floor(shots/2))*0.38
       const b=this.add.graphics().setDepth(9)
-      b.fillStyle(0xff6600,1); b.fillStar(0,0,5,9,5,0)
+      b.fillStyle(0xff6600,1); b.fillCircle(0,0,9)
       this.physics.add.existing(b)
       b.setPosition(bx,by); b.body.setSize(18,18)
       const spd=160+(this._bossMaxHP-this._bossHP)*30
