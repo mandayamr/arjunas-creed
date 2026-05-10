@@ -1,4 +1,4 @@
-import { Scene } from '@tialops/maki'
+import { Scene, manager } from '@tialops/maki'
 import { GameState, HUD } from './GameState.js'
 
 const STATE = { PATROL: 'patrol', CHASE: 'chase', DISTRACTED: 'distracted', DEAD: 'dead' }
@@ -12,10 +12,14 @@ export default class BazaarScene extends Scene {
     this._makiPlayers = []
     super.preload()
     this.arjun = this.maki.player('lia')
+    manager.preload(this)
+    manager.preload(this)
   }
 
   create() {
     super.create()
+    manager.create(this)
+    manager.create(this)
 
     const W = 1600, H = 1600
     this.physics.world.setBounds(0, 0, W, H)
@@ -414,7 +418,7 @@ export default class BazaarScene extends Scene {
     const py = this.arjun.sprite.y
     const blending = GameState.blendActive
 
-    this.guards.getChildren().forEach(g => {
+    if (!this.guards) return; if (!this.guards) return; this.guards.getChildren().forEach(g => {
       if (!g.active || g.state === STATE.DEAD) return
       g.nameLabel.setPosition(g.x, g.y - 30)
       const dist = Phaser.Math.Distance.Between(g.x, g.y, px, py)
@@ -610,7 +614,7 @@ export default class BazaarScene extends Scene {
 
   _nearestActiveGuard() {
     let nearest = null, minD = Infinity
-    this.guards.getChildren().forEach(g => {
+    if (!this.guards) return; if (!this.guards) return; this.guards.getChildren().forEach(g => {
       if (!g.active || g.state === STATE.DEAD) return
       const d = Phaser.Math.Distance.Between(this.arjun.sprite.x, this.arjun.sprite.y, g.x, g.y)
       if (d < minD) { minD = d; nearest = g }
@@ -658,3 +662,5 @@ export default class BazaarScene extends Scene {
     this.hud.update()
   }
 }
+// patch applied
+// patch applied
