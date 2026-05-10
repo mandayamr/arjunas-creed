@@ -1,9 +1,13 @@
+import { resetState } from './GameState.js'
+
 export default class TitleScene extends Phaser.Scene {
   constructor() {
     super('TitleScene')
   }
 
   create() {
+    resetState()
+
     const { width, height } = this.scale
 
     const bg = this.add.graphics()
